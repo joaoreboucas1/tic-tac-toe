@@ -94,10 +94,8 @@ class MinimaxBot(Bot):
         
         if curr_ctx.turn == self.player:
             score, move = max(zip(scores, moves), key=itemgetter(0))
-            # print(f"Move {chosen_move} has a score of {score}")
         else:
             score, _ = min(zip(scores, moves), key=itemgetter(0))
-            # print(f"Move {chosen_move} has a score of {score}")
         if depth == self.max_depth: self.move = move
         return score
     
