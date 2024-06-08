@@ -2,7 +2,7 @@ from typing import Optional
 from enum import IntEnum
 from random import randint
 from time import sleep
-from copy import deepcopy
+from copy import deepcopy, copy
 from operator import itemgetter
 from collections import deque
 from tkinter import *
@@ -34,7 +34,7 @@ class GameContext:
         self.turn = Player.O
 
     def possible_moves(self) -> tuple[tuple[int, int]]:
-        return ((i, j) for i in range(3) for j in range(3) if self.board[i][j] is None)
+        return tuple(((i, j) for i in range(3) for j in range(3) if self.board[i][j] is None))
 
     def update(self, row, col):
         self.moves += 1
@@ -85,14 +85,13 @@ class MinimaxBot(Bot):
             elif winner == Player(1 - self.player): return -10
             elif winner is None: return 0
         
+        moves = curr_ctx.possible_moves()
         scores = []
-        moves = []
-        for move in curr_ctx.possible_moves():
+        for move in moves:
             new_ctx = deepcopy(curr_ctx)
             new_ctx.update(*move)
-            moves.append(move)
-            scores.append(self.minimax(new_ctx, depth - 1))
-
+            scores.append(self.minimax(new_ctx, depth-1))
+        
         if curr_ctx.turn == self.player:
             score, move = max(zip(scores, moves), key=itemgetter(0))
             # print(f"Move {chosen_move} has a score of {score}")
