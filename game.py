@@ -149,6 +149,7 @@ class Application:
         self.reset_game()
 
         # Handler for mouse events
+        # Mouse events control the game flow so they trigger context updates
         def mouse_callback(event):
             col = int(event.x // self.cell_size)
             row = int(event.y // self.cell_size)
@@ -200,6 +201,7 @@ class Application:
             col = randint(0, 2)
             self.update_canvas(row, col)
             self.ctx.update(row, col)
+        
         self.accept_user_input = True
         self.text_area.config(text="Tic-tac-toe!")
     
